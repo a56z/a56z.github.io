@@ -1,7 +1,7 @@
 ---
-title: /contact
+title: /cheat sheets
 layout: page
-permalink: /contact
+permalink: /cheat-sheets
 ---
 
 # Get in touch?

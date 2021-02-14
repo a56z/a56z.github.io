@@ -6,4 +6,4 @@ permalink: /
 
 # Welcome
 
-Bla bla bla bla. Bla bla bla bla bla bla bla bla.
+Here I will be documenting my way towards eJPT, eCPPTv2, OSCP, CTFs and adding some occasional shitposts.

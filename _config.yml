@@ -36,18 +36,18 @@ plugins:
 
 header_pages:
   - index.md
-  - peter.md
-  - about.md
-  - contact.md
+  #- peter.md
+  - shitposts.md
+  - cheat-sheet.md
 
 style: hacker
 
-footer: 'follow us on <a href="https://twitter.com/">twitter</a>'
+footer: 'follow me on <a href="https://twitter.com/a56z__/">twitter</a>'
 
 # Build settings
 markdown: kramdown
-theme: jekyll-theme-console
-#remote_theme: b2a3e8/jekyll-theme-console
+#theme: jekyll-theme-console
+remote_theme: b2a3e8/jekyll-theme-console
 
 # Exclude from processing.
 # The following items will not be processed, by default.

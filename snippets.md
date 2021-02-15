@@ -1,7 +1,7 @@
 ---
-title: /cheat-sheet
+title: /snippets
 layout: page
-permalink: /cheat-sheet
+permalink: /snippets
 ---
 
 ### Metasploit

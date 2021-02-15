@@ -43,7 +43,8 @@ style: hacker
 footer: 'follow me on <a href="https://twitter.com/a56z__/">twitter</a>'
 
 # Build settings
-markdown: kramdown
+#markdown: kramdown
+markdown: CommonMarkGhPages
 #theme: jekyll-theme-console
 remote_theme: b2a3e8/jekyll-theme-console
 

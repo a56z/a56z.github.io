@@ -35,7 +35,7 @@ plugins:
   - jekyll-feed
 
 header_pages:
-  - index.md
+  - index.markdown
   #- peter.md
   - snippets.md
   - shitposts.md

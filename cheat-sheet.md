@@ -1,5 +1,5 @@
 ---
-title: /cheat sheet
+title: /cheat-sheet
 layout: page
 permalink: /cheat-sheet
 ---

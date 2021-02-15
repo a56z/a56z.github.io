@@ -38,7 +38,7 @@ header_pages:
   - index.md
   #- peter.md
   - shitposts.md
-  - cheat-sheet.md
+  - snippets.md
 
 style: hacker
 

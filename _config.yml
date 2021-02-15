@@ -37,8 +37,8 @@ plugins:
 header_pages:
   - index.md
   #- peter.md
-  - shitposts.md
   - snippets.md
+  - shitposts.md
 
 style: hacker
 

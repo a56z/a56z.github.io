@@ -27,6 +27,9 @@ url: "https://a56z.github.io" # the base hostname & protocol for your site, e.g.
 twitter_username: a56z_
 github_username:  a56z
 
+# Google Analytics
+google_analytics: G-262023259
+
 # Build settings
 theme: minima
 plugins:

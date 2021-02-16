@@ -34,7 +34,7 @@ plugins:
 
 header_pages:
   - index.markdown
-  #- peter.md
+  - code.md
   - snippets.md
   - shitposts.md
 

@@ -476,6 +476,9 @@ meterpreter >
 <br/>
 By viewing /etc/passwd we can see that our ftpuser is already a priviliged (uid: 0, which is effectively root):
 
+<details> 
+  <summary> <b>Meterpreter</b> </summary>
+
 ```bash
 
 meterpreter > shell
@@ -516,6 +519,7 @@ su ftpuser
 su: must be run from a terminal
 www-data@xubuntu:/var/www/html$ 
 ```
+
 <br/>
 Meaning we can't execute due to lack of terminal. 
 However, we can spawn a terminal with Python:
@@ -560,7 +564,10 @@ cat .flag.txt
 You got the first machine!
 root@xubuntu:/var/www# 
 ```
+
+</details>
 <br/>
+
 ##### Pivoting to other networks
 
 Alright. Let's leverage the compromised 172.16.37.234 machine to create a route to the second network and compromise the remaining 172.16.37.220 machine.

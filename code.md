@@ -1,7 +1,7 @@
 ---
 layout: page
 title: /code
-permalink: /code/
+permalink: /code
 ---
 
 # Code

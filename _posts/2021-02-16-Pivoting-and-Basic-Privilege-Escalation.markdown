@@ -576,7 +576,7 @@ First we want to run an nmap inside 172.16.37.234. I got logged out,so to do it 
 
 
 <details> 
-  <summary> <b>Initial Nmap scan from our compromise machine.</b> </summary>
+  <summary> <b>Initial Nmap scan from our compromised machine.</b> </summary>
 
 ```bash
 

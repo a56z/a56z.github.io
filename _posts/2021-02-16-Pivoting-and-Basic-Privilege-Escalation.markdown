@@ -121,7 +121,7 @@ PORT     STATE SERVICE    VERSION
 | http-methods: 
 |_  Supported Methods: GET HEAD POST OPTIONS
 |_http-server-header: Apache/2.4.18 (Ubuntu)
-|_http-title: Site doesn't have a title (text/html; charset=UTF-8).
+|_http-title: Site doesnt have a title (text/html; charset=UTF-8).
 3307/tcp open  tcpwrapped
 No exact OS matches for host (If you know what OS is running on it, see https://nmap.org/submit/ ).
 TCP/IP fingerprint:

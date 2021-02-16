@@ -240,3 +240,45 @@ DOWNLOADED: 13836 - FOUND: 3
 ```
 </details>
 <br/>
+
+<details> 
+  <summary> <b>dirb http://172.16.37.234:40180</b> </summary>
+
+```bash
+┌──(root💀kali)-[~]
+└─# dirb http://172.16.37.234:40180                                                                              2 ⨯
+
+-----------------
+DIRB v2.22    
+By The Dark Raver
+-----------------
+
+START_TIME: Tue Feb 16 11:22:32 2021
+URL_BASE: http://172.16.37.234:40180/
+WORDLIST_FILES: /usr/share/dirb/wordlists/common.txt
+
+-----------------
+
+GENERATED WORDS: 4612                                                          
+
+---- Scanning URL: http://172.16.37.234:40180/ ----
++ http://172.16.37.234:40180/index.html (CODE:200|SIZE:11321)                                                       
++ http://172.16.37.234:40180/server-status (CODE:403|SIZE:304)                                                      
+==> DIRECTORY: http://172.16.37.234:40180/xyz/                                                                      
+                                                                                                                    
+---- Entering directory: http://172.16.37.234:40180/xyz/ ----
++ http://172.16.37.234:40180/xyz/index.php (CODE:200|SIZE:1418)                                                     
+                                                                                                                    
+-----------------
+END_TIME: Tue Feb 16 11:32:04 2021
+DOWNLOADED: 9224 - FOUND: 3
+                                                                                                                     
+┌──(root💀kali)-[~]
+└─# 
+```
+
+</details>
+<br/>
+
+
+Looking at the results we get from dirb we can see that 172.16.37.234/40180/xyz/ suggests there is another network. We see this by visiting the URL and inspecting its source code.

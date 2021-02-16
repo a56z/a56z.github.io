@@ -194,10 +194,10 @@ Nmap done: 3 IP addresses (3 hosts up) scanned in 115.72 seconds
 </details>
 <br/>
 
-Let's use dig into our Nmap results and inspect the HTTP services on both machines with dirb:
+Let's dig into our Nmap results and inspect the HTTP services on both machines with dirb:
 <br/>
-  http://172.16.37.234:40180
-  http://172.16.37.220:80
+    http://172.16.37.234:40180
+    http://172.16.37.220:80
 <br/>
 
 <details> 

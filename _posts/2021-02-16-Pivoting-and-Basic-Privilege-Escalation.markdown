@@ -735,3 +735,5 @@ root@xubuntu:~#
 ```
 </details>
 <br/>
+
+And that's it, we got the last flag!

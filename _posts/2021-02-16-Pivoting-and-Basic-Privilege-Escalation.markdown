@@ -195,7 +195,7 @@ Nmap done: 3 IP addresses (3 hosts up) scanned in 115.72 seconds
 <br/>
 
 Let's dig into our Nmap results and inspect the HTTP services on both machines with dirb:
-<br/>
+
     http://172.16.37.234:40180
     http://172.16.37.220:80
 <br/>
@@ -282,3 +282,6 @@ DOWNLOADED: 9224 - FOUND: 3
 
 
 Looking at the results we get from dirb we can see that 172.16.37.234/40180/xyz/ suggests there is another network. We see this by visiting the URL and inspecting its source code.
+<br/>
+<img src="/assets/images/source172_16_37_234.png" height="100%" width="100%">
+<br/>

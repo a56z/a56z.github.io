@@ -192,3 +192,51 @@ Nmap done: 3 IP addresses (3 hosts up) scanned in 115.72 seconds
 
 ```
 </details>
+<br/>
+
+Let's use dig into our Nmap results and inspect the HTTP services on both machines with dirb:
+<br/>
+  http://172.16.37.234:40180
+  http://172.16.37.220:80
+<br/>
+
+<details> 
+  <summary> <b>dirb http://172.16.37.220:80</b> </summary>
+
+```bash
+┌──(root💀kali)-[~]
+└─# dirb http://172.16.37.220:80               
+
+-----------------
+DIRB v2.22    
+By The Dark Raver
+-----------------
+
+START_TIME: Tue Feb 16 11:40:58 2021
+URL_BASE: http://172.16.37.220:80/
+WORDLIST_FILES: /usr/share/dirb/wordlists/common.txt
+
+-----------------
+
+GENERATED WORDS: 4612                                                          
+
+---- Scanning URL: http://172.16.37.220:80/ ----
++ http://172.16.37.220:80/index.php (CODE:200|SIZE:1406)                                                            
+==> DIRECTORY: http://172.16.37.220:80/javascript/                                                                  
++ http://172.16.37.220:80/server-status (CODE:403|SIZE:301)                                                         
+                                                                                                                    
+---- Entering directory: http://172.16.37.220:80/javascript/ ----
+==> DIRECTORY: http://172.16.37.220:80/javascript/jquery/                                                           
+                                                                                                                    
+---- Entering directory: http://172.16.37.220:80/javascript/jquery/ ----
++ http://172.16.37.220:80/javascript/jquery/jquery (CODE:200|SIZE:284394)                                           
+                                                                                                                    
+-----------------
+END_TIME: Tue Feb 16 11:55:06 2021
+DOWNLOADED: 13836 - FOUND: 3
+                                                                                                                     
+┌──(root💀kali)-[~]
+└─# 
+```
+</details>
+<br/>

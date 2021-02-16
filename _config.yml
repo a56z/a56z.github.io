@@ -28,8 +28,9 @@ twitter_username: a56z_
 github_username:  a56z
 
 # Google Analytics
-#google_analytics: G-ELHB6X3W1V
-google_analytics: G-WH0XFSHTC8
+google_analytics: G-ELHB6X3W1V
+#0xBlackhat GA4 | 262027902
+#google_analytics: G-WH0XFSHTC8
 
 # Build settings
 theme: minima

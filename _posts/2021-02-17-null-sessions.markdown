@@ -109,9 +109,10 @@ The Samba suite also provides smbclient, an FTP-like client to access Windows sh
 <img src="/assets/images/pts_labs/null_sessions/8smbclient.png" height="70%" width="70%">
 <br/>
 The previous command line uses the following options:
-• -L allows you to look at what services are available on a target
-• With //<IP Address> you have to prepend two slashes to the target IP address
-• -N forces the tool to not ask for a password.
+
+--> -L allows you to look at what services are available on a target  
+-->  With //<IP Address> you have to prepend two slashes to the target IP address  
+--> -N forces the tool to not ask for a password.  
 
 Smbclient can not only detect the very same shares detected by NET VIEW...
 <br/>
@@ -124,7 +125,7 @@ Smbclient can not only detect the very same shares detected by NET VIEW...
 </details>
 <br/>
 
-Once we have detected that the File and Printer Sharing service is active and we have enumerated the available shares on a target, it is time to check if a null session attack is possible. To verify that, we will exploit the IPC$ administrative share by trying to connect to it without valid credentials.
+Once we have detected that the File and Printer Sharing service is active and we have enumerated the available shares on a target, it is time to check if a null session attack is possible.
 <details> 
   <summary> <b>Checking for Null Sessions</b> </summary>
 

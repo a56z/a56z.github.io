@@ -200,9 +200,6 @@ Knowing the minimum and maximum length of a password helps you save time while b
 <br/>
 
 <details> 
-  <summary> <b>Nmap</b> </summary>
-
-<details> 
   <summary> <b>Winfo (Windows)</b> </summary>
 Winfo is another command line utility you can use to automate null session exploitation. To use it, you just need to specify the target IP address and use the -n command line switch to tell the tool to use null sessions.
 

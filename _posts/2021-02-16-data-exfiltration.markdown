@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Data Exfiltration with DNS"
+title: "Data Exfiltration via DNS"
 permalink: /data-exfiltration/
 date: 2021-02-16 21:33:45 +0100
 categories: tools

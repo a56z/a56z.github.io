@@ -6,6 +6,7 @@ permalink: /snippets
 
 ## Metasploit
 #### ./ Handlers
+
 ```bash 
 msf6 > use exploit/multi/handler
 msf6 > set PAYLOAD <Payload name>
@@ -20,7 +21,6 @@ Once the required values are completed the following command will execute your h
 <br/>
 
 #### ./ Scripting Payloads
-<b/>
 
 <b>PHP<b/>
 

@@ -168,7 +168,7 @@ Null sessions are a piece of the history of Windows hacking. Even if by default 
 <details> 
   <summary> <b>Exploiting Null Sessions with Enum (Windows)</b> </summary>
 
-**_Enum_** is a command line utility that can retrieve information from a system vulnerable to null session attacks. You can install it just by extracting it and running it from the Windows command prompt.
+<b>Enum</b> is a command line utility that can retrieve information from a system vulnerable to null session attacks. You can install it just by extracting it and running it from the Windows command prompt.
 
 The -S parameter lets you enumerate the shares of a machine:
 

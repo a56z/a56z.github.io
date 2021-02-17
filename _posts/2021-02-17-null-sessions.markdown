@@ -28,6 +28,9 @@ Enumerating shares is the first step needed to exploit a Windows machine vulnera
 In Windows, the most common command to use when enumerating Windows shares is nbtstat. 
 Nbtstat is a Windows command line tool that can display information about a target.
 
+<details> 
+  <summary> <b>Nbtstat</b> </summary>
+
 You can check how to use it by passing it the /? parameter:
 <br/>
 <img src="/assets/images/pts_labs/null_sessions/1.png" height="100%" width="100%">
@@ -50,12 +53,14 @@ This line contains the workgroup or the domain the computer is joined to:
 And this is the most interesting line of the table! The type <20> records tell us that the file sharing service is up and running on the machine; this means we can try to get some more information about it.
 <br/>
 <img src="/assets/images/pts_labs/null_sessions/4.png" height="60%" width="60%">
+</details>
 <br/>
+
+Once an attacker knows that a machine has the File Server service running, they can enumerate the shares by using the NET VIEW command.  
 
 <details> 
   <summary> <b>NET VIEW</b> </summary>
-  
-Once an attacker knows that a machine has the File Server service running, they can enumerate the shares by using the NET VIEW command. 
+
 
 You can use the command by typing:
 
@@ -74,11 +79,10 @@ Another directory on the share is WIA_RIS_SHARE.
 </details>
 <br/>
 
-
+You can also perform shares enumeration from a Linux machine. You need to use the tools provided by the Samba suite. Samba tools are already installed in Kali Linux, but you can install them in nearly every Linux distribution.
 <details> 
   <summary> <b>Nmblookup</b> </summary>
   
-You can also perform shares enumeration from a Linux machine. You need to use the tools provided by the Samba suite. Samba tools are already installed in Kali Linux, but you can install them in nearly every Linux distribution.
 
 To perform the same operations of nbtstat, you can use nmblookup with the same command line switch:
 
@@ -99,10 +103,9 @@ Here are the results we get from running nmblookupon the same target machine. We
 </details>
 <br/>
 
-
+The Samba suite also provides smbclient, an FTP-like client to access Windows shares; this tool can, among other things, enumerate the shares provided by a host:
 <details> 
   <summary> <b>Smbclient</b> </summary>
-The Samba suite also provides smbclient, an FTP-like client to access Windows shares; this tool can, among other things, enumerate the shares provided by a host:
 <br/>
 <img src="/assets/images/pts_labs/null_sessions/8smbclient.png" height="70%" width="70%">
 <br/>
@@ -122,10 +125,9 @@ Smbclient can not only detect the very same shares detected by NET VIEW...
 </details>
 <br/>
 
+Once we have detected that the File and Printer Sharing service is active and we have enumerated the available shares on a target, it is time to check if a null session attack is possible. To verify that, we will exploit the IPC$ administrative share by trying to connect to it without valid credentials.
 <details> 
   <summary> <b>Checking for Null Sessions</b> </summary>
-  
-Once we have detected that the File and Printer Sharing service is active and we have enumerated the available shares on a target, it is time to check if a null session attack is possible. To verify that, we will exploit the IPC$ administrative share by trying to connect to it without valid credentials.
 
 To verify that, we will exploit the IPC$ administrative share by trying to connect to it without valid credentials.
 

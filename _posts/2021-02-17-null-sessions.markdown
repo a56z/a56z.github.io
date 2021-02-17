@@ -19,10 +19,10 @@ Null sessions are remotely exploitable; this means that attackers can use their 
 
 Null session attacks can be used to enumerate a lot of information. Attackers can steal information about:
   
-• Passwords
-• System users
-• System groups
-• Running system processes
+--> Passwords
+--> System users
+--> System groups
+--> Running system processes
 <br/>
 
 Enumerating shares is the first step needed to exploit a Windows machine vulnerable to null sessions. In Windows, the most common command to use when enumerating Windows shares is nbtstat. Nbtstat is a Windows command line tool that can display information about a target.

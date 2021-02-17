@@ -48,7 +48,8 @@ powershell ls
 <img src="/assets/images/pts_labs/lab3-pythonpowershellsearch.png" height="100%" width="100%">
 <br/>
 
-##### Identify if the 172.16.91.100 machine allows any of the commonly used ports for outbound connectivity
+<details> 
+	<summary> <b>Identify if the 172.16.91.100 machine allows any of the commonly used ports for outbound connectivity</b> </summary>
 
 1. Launch a Python server specifying the port of choice in your **_attacker_** machine.
 <br/>
@@ -78,11 +79,15 @@ The webiste will present you with the files of the /tmp directory where the Pyth
 
 Inside a real world scenario you can simply launch Wireshark and see if you can sniff any DNS requests originating from the 172.16.91.100 machine.If this was the case then port 53 (UDP) is allowed for outbound connectivity.
 
+</details>
+<br/>
+
 Let's summarize that we have identified ports 8080 (TCP) and 53 (UDP) allowed for outbound connectivity.
 
 <br/>
 
-##### Exfiltrate a file
+<details> 
+  <summary> <b>Exfiltrate a file</b> </summary>
 
 Based on the identified ports the stealthier exfiltration way is through port 53 (UDP). PacketWhisper can help to easil exfiltrate data via DNS requests. It's a Python based tool that you can download from github.
 
@@ -108,11 +113,15 @@ You then run a Python server in the directory where you saved the zipped version
 $ python -m SimpleHTTPServer 8080
 ```
 
+</details>
+<br/>
+
 Then you point the browser on the 172.16.91.100 victim machine to your attacking machine IP and port 8080 in order to download the tool. 
 
-
-###### Time to launch PacketWhisper
-
+<details> 
+  <summary> <b>Time to launch PacketWhisper</b> </summary>
+	 
+	
 - Launch Wireshark on your attacking machine
 - Launch cmd.exe on the 172.16.91.100 victim machine and go to the  PacketWhisper directory
 - Copy the file you want to transfer into the PacketWhisper directory
@@ -166,8 +175,13 @@ The file is now decrypted. To view its content double click the file or read it 
 $ cat decloaked.capture
 ```
 
+</details>
+<br/>
 
-##### Automate enumerating all the exfiltration paths and Identify open ports
+
+<details> 
+  <summary> <b>Automate enumerating all the exfiltration paths and Identify open ports</b> </summary>
+	
 Let's use egresscheck framework for identifying ports that are allowed outbound connectivity.
 <br/>
 
@@ -238,7 +252,10 @@ Download the .bat file on the victim machine.
 Go back to your attacking machine, execute Wireshark again.
 Now, go to the victim machine and right-click the downloaded BAT file and click “Run as administrator.”
 
-Now, go to your attacking machine, check Wireshark and observe the traffic.
-If there is another hidden open port that shows in Wireshark it
+</details>
+<br/>
 
-After a short period of time, Wireshark will receive a packet destined to an open port –which means that this port is also allowed outbound connectivity on the victim machine’s firewall.
+Now, go to your attacking machine, check Wireshark and observe the traffic.
+If there is another hidden open port in the network in Wireshark it will now show.
+
+After a short period of time - and if we are lucky - Wireshark will receive a packet destined to an open port –which means that this port is also allowed outbound connectivity on the victim machine’s firewall. In case you can't use nmap this is a useful tool to have in mind.

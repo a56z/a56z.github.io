@@ -12,6 +12,7 @@ categories: tool
 ##### What are Null Sessions?
 
 A null session attack exploits an authentication vulnerability for Windows Administrative Shares; this lets an attacker connect to a local or remote share without authentication.
+<br/>
 Null sessions are remotely exploitable; this means that attackers can use their computers to attack a vulnerable Windows machine. Moreover, this attack can be used to call remote APIs and remote procedure calls. Because of these factors, null session attacks had a huge impact on Windows ecosystems.Nowadays Windows is configured to be immune from this kind of attack. However, legacy hosts can still be vulnerable!
 <br/>
 ##### What is it used for?
